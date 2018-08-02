@@ -80,8 +80,9 @@ func main() {
 	}
 
 	// call into selected action
-	if _, ok := actions[action]; ok {
-		actions[action].Function(config, args)
+	if act, ok := actions[action]; ok {
+		fmt.Println("starting up...")
+		act.Function(config, args)
 	} else {
 		flag.Usage()
 	}
