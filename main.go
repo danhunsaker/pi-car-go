@@ -8,6 +8,7 @@ import (
 	goflag "flag"
 	flag "github.com/spf13/pflag"
   "github.com/ufoscout/go-up"
+	"github.com/xlab/closer"
 )
 
 // options that will be recognized by the CLI
@@ -22,12 +23,14 @@ var actions = make(map[string]action)
 type action struct {
 	Usage    string
 	Purpose  string
-	Function func(go_up.GoUp, []string)
+	Function func(go_up.GoUp, []string) error
 }
 
 func main() {
 	var action string
 	var args []string
+
+	defer closer.Close()
 
 	// Load the Environment variables
 	// The are used as they are defined, e.g. ENV_VARIABLE=XXX
@@ -81,7 +84,9 @@ func main() {
 
 	// call into selected action
 	if _, ok := actions[action]; ok {
-		actions[action].Function(config, args)
+		closer.Checked(func() error {
+			return actions[action].Function(config, args)
+		}, true)
 	} else {
 		flag.Usage()
 	}

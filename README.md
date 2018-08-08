@@ -34,7 +34,7 @@ Planned features:
   - SDAP
   - SAP/SIM/rSAP
 6.  Audio-only media center (supports internal and external storage)
-7.  Voice commands (I hope!)
+7.  ~~Voice commands (I hope!)~~ _Too resource-intensive for a Pi, sorry..._ 
 
 Currently supported:
 - Nothing!
